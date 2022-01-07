@@ -7,6 +7,10 @@ namespace SimpleTrader.EntityFramework {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AssetTransaction> AssetTransactions { get; set; }
 
+        public SimpleTraderDbContext(DbContextOptions options) : base(options) {
+
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             //Tell it that we want the Stock object from AssetTransaction to be embedded in the AssetTransaction table
             //In other words, the Stock element in AssetTransaction will be replaced by the elements in the Stock class
@@ -14,14 +18,6 @@ namespace SimpleTrader.EntityFramework {
             modelBuilder.Entity<AssetTransaction>().OwnsOne(a => a.Stock);
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        //In order to generate the database, migrations must be used.
-        //And for this a connection string must be provided.
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=SimpleTraderDB;Trusted_Connection=True");
-
-            base.OnConfiguring(optionsBuilder);
         }
     }
 }
