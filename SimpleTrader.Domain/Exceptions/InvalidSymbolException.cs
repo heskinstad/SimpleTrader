@@ -16,7 +16,7 @@ namespace SimpleTrader.Domain.Exceptions {
             Symbol = symbol;
         }
 
-        public InvalidSymbolException(string symbol, string message, Exception innerException) : base(message, innerExcpetion) {
+        public InvalidSymbolException(string symbol, string message, Exception innerException) : base(message, innerException) {
             Symbol = symbol;
         }
     }
