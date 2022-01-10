@@ -1,31 +1,34 @@
 ﻿using Newtonsoft.Json;
 using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SimpleTrader.FinancialModelingPrepAPI.Services {
     public class MajorIndexService : IMajorIndexService {
         public async Task<MajorIndex> GetMajorIndex(MajorIndexType indexType) {
-            using (HttpClient client = new HttpClient()) {
-                string uri = "https://financialmodelingprep.com//api/v3/majors-indexes/" + GetUriSuffix(indexType);
+            using (FinancialModelingPrepHttpClient client = new FinancialModelingPrepHttpClient()) {
+                string uri = "majors-indexes/" + GetUriSuffix(indexType);
 
-                HttpResponseMessage response = await client.GetAsync(uri);
-                string jsonResponse = await response.Content.ReadAsStringAsync();
+                MajorIndex majorIndex = await client.GetAsync<MajorIndex>(uri);
+                majorIndex.Type = indexType;
 
                 // Data since API now requires a key :(
+                string jsonResponse;
                 if (GetUriSuffix(indexType).Equals(".DJI")) {
                     jsonResponse = "{\"ticker\" : \".DJI\", \"changes\" : 18.9785, \"price\" : 27881.7, \"indexName\" : \"Dow Jones\"}";
                 }
-                if (GetUriSuffix(indexType).Equals(".IXIC")) {
+                else if (GetUriSuffix(indexType).Equals(".IXIC")) {
                     jsonResponse = "{\"ticker\" : \".IXIC\", \"changes\" : 2.3246, \"price\" : 3516.0, \"indexName\" : \"Nasdaq\"}";
                 }
-                if (GetUriSuffix(indexType).Equals(".INX")) {
+                else if (GetUriSuffix(indexType).Equals(".INX")) {
                     jsonResponse = "{\"ticker\" : \".INX\", \"changes\" : 7.3424, \"price\" : 9236.3, \"indexName\" : \"S&P 500\"}";
                 }
-
-                MajorIndex majorIndex = JsonConvert.DeserializeObject<MajorIndex>(jsonResponse);
-                majorIndex.Type = indexType;
+                else {
+                    jsonResponse = "{ }";
+                }
+                majorIndex = JsonConvert.DeserializeObject<MajorIndex>(jsonResponse);
 
                 return majorIndex;
             }
@@ -40,7 +43,7 @@ namespace SimpleTrader.FinancialModelingPrepAPI.Services {
                 case MajorIndexType.SP500:
                     return ".INX";
                 default:
-                    return ".DJI";
+                    throw new Exception("MajorIndexType does not have a suffix defined.");
             }
         }
     }
