@@ -13,18 +13,21 @@ namespace SimpleTrader.FinancialModelingPrepAPI.Services {
                 HttpResponseMessage response = await client.GetAsync(uri);
                 string jsonResponse = await response.Content.ReadAsStringAsync();
 
+                // Data since API now requires a key :(
+                if (GetUriSuffix(indexType).Equals(".DJI")) {
+                    jsonResponse = "{\"ticker\" : \".DJI\", \"changes\" : 18.9785, \"price\" : 27881.7, \"indexName\" : \"Dow Jones\"}";
+                }
+                if (GetUriSuffix(indexType).Equals(".IXIC")) {
+                    jsonResponse = "{\"ticker\" : \".IXIC\", \"changes\" : 2.3246, \"price\" : 3516.0, \"indexName\" : \"Nasdaq\"}";
+                }
+                if (GetUriSuffix(indexType).Equals(".INX")) {
+                    jsonResponse = "{\"ticker\" : \".INX\", \"changes\" : 7.3424, \"price\" : 9236.3, \"indexName\" : \"S&P 500\"}";
+                }
+
                 MajorIndex majorIndex = JsonConvert.DeserializeObject<MajorIndex>(jsonResponse);
                 majorIndex.Type = indexType;
 
-                //return majorIndex;
-
-                // Test data
-                MajorIndex testIndex = new MajorIndex();
-                testIndex.Type = MajorIndexType.DowJones;
-                testIndex.Price = 10.20;
-                testIndex.Changes = 3.42;
-                testIndex.Type = indexType;
-                return testIndex;
+                return majorIndex;
             }
         }
 

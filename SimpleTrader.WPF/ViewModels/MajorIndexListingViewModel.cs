@@ -38,9 +38,6 @@ namespace SimpleTrader.WPF.ViewModels {
             _majorIndexService = majorIndexService;
         }
 
-        public MajorIndexListingViewModel() {
-        }
-
         // Instansiates a MajorIndexViewModel, loads the data and returns it
         public static MajorIndexListingViewModel LoadMajorIndexViewModel(IMajorIndexService majorIndexService) {
             MajorIndexListingViewModel majorIndexViewModel = new MajorIndexListingViewModel(majorIndexService);
@@ -50,15 +47,15 @@ namespace SimpleTrader.WPF.ViewModels {
 
         private void LoadMajorIndexes() {
             _majorIndexService.GetMajorIndex(MajorIndexType.DowJones).ContinueWith(task => {
-                if(task.Exception == null) {
+                if (task.Exception == null) {
                     DowJones = task.Result;
-                }
+                    }
             });
 
             _majorIndexService.GetMajorIndex(MajorIndexType.Nasdaq).ContinueWith(task => {
                 if (task.Exception == null) {
                     Nasdaq = task.Result;
-                }
+                    }
             });
 
             _majorIndexService.GetMajorIndex(MajorIndexType.SP500).ContinueWith(task => {
