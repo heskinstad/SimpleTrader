@@ -11,8 +11,8 @@ namespace SimpleTrader.FinancialModelingPrepAPI.Services {
             using (FinancialModelingPrepHttpClient client = new FinancialModelingPrepHttpClient()) {
                 string uri = "majors-indexes/" + GetUriSuffix(indexType);
 
-                MajorIndex majorIndex = await client.GetAsync<MajorIndex>(uri);
-                majorIndex.Type = indexType;
+                MajorIndex majorIndex/* = await client.GetAsync<MajorIndex>(uri)*/;
+                //majorIndex.Type = indexType;
 
                 // Data since API now requires a key :(
                 string jsonResponse;

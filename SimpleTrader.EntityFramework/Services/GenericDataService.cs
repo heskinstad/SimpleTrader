@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SimpleTrader.Domain.Services;
 using SimpleTrader.Domain.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SimpleTrader.EntityFramework.Services.Common;
 
 namespace SimpleTrader.EntityFramework.Services {

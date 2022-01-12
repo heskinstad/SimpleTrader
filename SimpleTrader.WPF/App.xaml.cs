@@ -4,12 +4,6 @@ using SimpleTrader.Domain.Services.TransactionServices;
 using SimpleTrader.EntityFramework.Services;
 using SimpleTrader.FinancialModelingPrepAPI.Services;
 using SimpleTrader.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace SimpleTrader.WPF {
@@ -22,9 +16,9 @@ namespace SimpleTrader.WPF {
             IStockPriceService stockPriceService = new StockPriceService();
             IBuyStockService buyStockService = new BuyStockService(stockPriceService, accountService);
 
-            Account buyer = await accountService.Get(3);
+            Account buyer = await accountService.Get(2);
 
-            buyStockService.BuyStock(buyer, "T", 5);
+            await buyStockService.BuyStock(buyer, ".AAPL", 5);
 
             Window window = new MainWindow();
             window.DataContext = new MainViewModel();

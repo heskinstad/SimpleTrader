@@ -10,7 +10,7 @@ namespace SimpleTrader.FinancialModelingPrepAPI.Services {
             using (FinancialModelingPrepHttpClient client = new FinancialModelingPrepHttpClient()) {
                 string uri = "stock/real-time-price/" + symbol;
 
-                StockPriceResult stockPriceResult = await client.GetAsync<StockPriceResult>(uri);
+                StockPriceResult stockPriceResult/* = await client.GetAsync<StockPriceResult>(uri)*/;
 
                 // Data since API now requires a key :(
                 string jsonResponse;
