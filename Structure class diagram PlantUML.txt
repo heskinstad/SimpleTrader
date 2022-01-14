@@ -1,0 +1,122 @@
+@startuml
+
+title Project structure
+
+package Domain {
+  package Domain.Exceptions {
+    class Domain.Exceptions.Exception1
+    class Domain.Exceptions.Exception2
+  }
+  package Domain.Models {
+    class Domain.Models.Model1
+    class Domain.Models.Model2
+  }
+  package Domain.Services {
+    interface Domain.Services.IService1
+    interface Domain.Services.IService2
+  }
+}
+
+package WPF {
+  package WPF.Commands {
+    class WPF.Commands.UpdateCurrentViewModelCommand
+  }
+  package WPF.Controls {
+    circle WPF.Control.Control1.xaml
+    circle WPF.Control.Control2.xaml
+  }
+  package WPF.Models {
+    class WPF.Models.ObservableObject {
+      void OnPropertyChanged(string propertyName)
+    }
+  }
+  package WPF.State {
+    package WPF.State.Navigators {
+      interface WPF.State.Navigators.INavigator
+      class WPF.State.Navigators.Navigator
+    }
+  }
+  package WPF.ViewModels {
+    class WPF.ViewModels.ViewModelBase
+    class WPF.ViewModels.MainViewModel
+    class WPF.ViewModels.HomeViewModel
+  }
+  package WPF.Views {
+    circle WPF.Views.MainView.xaml
+    circle WPF.Views.HomeView.xaml
+  }
+  package WPF.Styles {
+    circle WPF.Styles.Style1.xaml
+    circle WPF.Styles.Style2.xaml
+  }
+  class WPF.App {
+    void OnStartup(StartupEventArgs)
+    IServiceProvider CreateServiceProvider()
+  }
+  class WPF.MainWindow
+}
+
+package DataManager {
+  package DataManager.Database {
+    package DataManager.Database.Models {
+      
+    }
+  }
+  package DataManager.Evolution {
+    package DataManager.Evolution.Models {
+      
+    }
+  }
+  package DataManager.Landax {
+    package DataManager.Landax.Models {
+      
+    }
+  }
+  package DataManager.SAP {
+    package DataManager.SAP.Models {
+      
+    }
+  }
+}
+
+package Database <<Database>> {
+
+}
+
+Database --> DataManager
+
+package Microsoft.Extensions.DependencyInjection {
+
+}
+
+WPF.App --* Microsoft.Extensions.DependencyInjection
+
+package Tests {
+  
+}
+
+WPF --|> Domain
+DataManager --|> Domain
+
+WPF.Views.HomeView.xaml <-[dashed]- WPF.ViewModels.HomeViewModel : Binding
+WPF.Views.MainView.xaml <-[dashed]- WPF.ViewModels.MainViewModel : Binding
+WPF.Styles <-[dashed]- WPF.Views
+WPF.ViewModels --> WPF.State
+WPF.ViewModels.ViewModelBase --* WPF.Models.ObservableObject
+WPF.ViewModels.MainViewModel --* WPF.ViewModels.ViewModelBase
+WPF.ViewModels.HomeViewModel --* WPF.ViewModels.ViewModelBase
+WPF.Models.ObservableObject --* INotifyPropertyChanged
+WPF.State.Navigators.Navigator --> WPF.Commands.UpdateCurrentViewModelCommand
+WPF.State.Navigators.Navigator --* WPF.State.Navigators.INavigator
+WPF.State.Navigators.Navigator --* WPF.Models.ObservableObject
+WPF.Views -[dashed]-> WPF.Controls
+WPF.Commands.UpdateCurrentViewModelCommand --* ICommand
+WPF.App --> WPF.ViewModels.MainViewModel : AddScoped
+WPF.App --> WPF.State.Navigators : AddScoped
+WPF.App --> WPF.MainWindow : AddScoped
+WPF.ViewModels.ViewModelBase *-- WPF.ViewModels.viewmodel : All other view models\nextends ViewModelBase
+
+interface INotifyPropertyChanged
+interface ICommand
+
+@enduml
