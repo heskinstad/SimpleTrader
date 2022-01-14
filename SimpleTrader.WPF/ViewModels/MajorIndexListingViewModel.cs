@@ -1,6 +1,5 @@
 ﻿using SimpleTrader.Domain.Models;
 using SimpleTrader.Domain.Services;
-using System.Threading.Tasks;
 
 namespace SimpleTrader.WPF.ViewModels {
     public class MajorIndexListingViewModel : ViewModelBase {
