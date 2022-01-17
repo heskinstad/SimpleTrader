@@ -34,6 +34,8 @@ package WPF {
     package WPF.State.Navigators {
       interface WPF.State.Navigators.INavigator
       class WPF.State.Navigators.Navigator
+      interface WPF.State.Navigators.IRenavigator
+      class WPF.State.Navigators.ViewModelDelegateRenavigator
     }
   }
   package WPF.ViewModels {
@@ -115,6 +117,7 @@ WPF.App --> WPF.ViewModels.MainViewModel : AddScoped
 WPF.App --> WPF.State.Navigators : AddScoped
 WPF.App --> WPF.MainWindow : AddScoped
 WPF.ViewModels.ViewModelBase *-- WPF.ViewModels.viewmodel : All other view models\nextends ViewModelBase
+WPF.State.Navigators.ViewModelDelegateRenavigator --* WPF.State.Navigators.IRenavigator
 
 interface INotifyPropertyChanged
 interface ICommand
