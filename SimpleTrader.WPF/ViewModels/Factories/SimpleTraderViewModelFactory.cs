@@ -15,7 +15,6 @@ namespace SimpleTrader.WPF.ViewModels.Factories {
             _createBuyViewModel = createBuyViewModel;
         }
 
-
         public ViewModelBase CreateViewModel(ViewType viewType) {
             switch (viewType) {
                 case ViewType.Home:
@@ -23,7 +22,7 @@ namespace SimpleTrader.WPF.ViewModels.Factories {
                 case ViewType.Portfolio:
                     return _createPortfolioViewModel();
                 case ViewType.Buy:
-                    return _createBuyViewModel(); // This is reusing the same instanse of the viewmodel, aka not creating a new one every time
+                    return _createBuyViewModel();
                 default:
                     throw new ArgumentException("The ViewType does not have a ViewModel.", "viewType");
             }

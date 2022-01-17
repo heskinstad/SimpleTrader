@@ -8,5 +8,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TextBlock Text="Buy stocks"/>
+        <Button Content="Click me!" Command="{Binding ToHomeCommand}" Width="100" Height="40"/>
     </Grid>
 </UserControl>

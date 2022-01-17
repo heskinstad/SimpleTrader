@@ -63,13 +63,21 @@ namespace SimpleTrader.WPF {
             //
 
 
+            // How to set up navigation from a button inside the ContentControl that changes the ContentControl viewmodel
+            services.AddSingleton <ViewModelDelegateRenavigator<HomeViewModel>>();
+            services.AddSingleton<CreateViewModel<BuyViewModel>>(services => {
+                return () => new BuyViewModel(
+                    services.GetRequiredService<ViewModelDelegateRenavigator<HomeViewModel>>());
+            });
+            //
+
             services.AddSingleton<CreateViewModel<PortfolioViewModel>> (services => {
                 return () => services.GetRequiredService<PortfolioViewModel>();
             });
 
-            services.AddSingleton<CreateViewModel<BuyViewModel>>(services => {
+            /*services.AddSingleton<CreateViewModel<BuyViewModel>>(services => {
                 return () => services.GetRequiredService<BuyViewModel>();
-            });
+            });*/
 
             services.AddScoped<INavigator, Navigator>();
             services.AddScoped<MainViewModel>();
