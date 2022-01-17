@@ -39,10 +39,37 @@ namespace SimpleTrader.WPF {
             services.AddSingleton<IBuyStockService, BuyStockService>();
             services.AddSingleton<IMajorIndexService, MajorIndexService>();
 
-            services.AddSingleton<IRootSimpleTraderViewModelFactory, RootSimpleTraderViewModelFactory>();
-            services.AddSingleton<ISimpleTraderViewModelFactory<HomeViewModel>, HomeViewModelFactory>();
-            services.AddSingleton<ISimpleTraderViewModelFactory<PortfolioViewModel>, PortfolioViewModelFactory>();
-            services.AddSingleton<ISimpleTraderViewModelFactory<MajorIndexListingViewModel>, MajorIndexListingViewModelFactory>();
+            services.AddSingleton<ISimpleTraderViewModelFactory, SimpleTraderViewModelFactory>();
+            services.AddSingleton<BuyViewModel>();
+            services.AddSingleton<PortfolioViewModel>();
+
+
+            // Create one HomeViewModel instanse for the entire program
+            services.AddSingleton<HomeViewModel>(services => new HomeViewModel(
+                MajorIndexListingViewModel.LoadMajorIndexViewModel(
+                    services.GetRequiredService<IMajorIndexService>())));
+
+            services.AddSingleton<CreateViewModel<HomeViewModel>>(services => {
+                return () => services.GetRequiredService<HomeViewModel>();
+            });
+            //
+
+            // Create a new HomeViewModel instanse every time the HomeViewModel is loaded
+            /*services.AddSingleton<CreateViewModel<HomeViewModel>>(services => {
+                return () => new HomeViewModel(
+                    MajorIndexListingViewModel.LoadMajorIndexViewModel(
+                        services.GetRequiredService<IMajorIndexService>()));
+            });*/
+            //
+
+
+            services.AddSingleton<CreateViewModel<PortfolioViewModel>> (services => {
+                return () => services.GetRequiredService<PortfolioViewModel>();
+            });
+
+            services.AddSingleton<CreateViewModel<BuyViewModel>>(services => {
+                return () => services.GetRequiredService<BuyViewModel>();
+            });
 
             services.AddScoped<INavigator, Navigator>();
             services.AddScoped<MainViewModel>();

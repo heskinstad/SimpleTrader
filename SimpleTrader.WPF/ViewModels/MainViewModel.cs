@@ -5,12 +5,12 @@ using System.Windows.Input;
 
 namespace SimpleTrader.WPF.ViewModels {
     public class MainViewModel : ViewModelBase {
-        private readonly IRootSimpleTraderViewModelFactory _viewModelFactory;
+        private readonly ISimpleTraderViewModelFactory _viewModelFactory;
 
         public INavigator Navigator { get; set; }
         public ICommand UpdateCurrentViewModelCommand { get; }
 
-        public MainViewModel(INavigator navigator, IRootSimpleTraderViewModelFactory viewModelFactory) {
+        public MainViewModel(INavigator navigator, ISimpleTraderViewModelFactory viewModelFactory) {
 
             Navigator = navigator;
             _viewModelFactory = viewModelFactory;
