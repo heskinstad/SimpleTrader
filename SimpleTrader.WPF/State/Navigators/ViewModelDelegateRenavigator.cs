@@ -3,9 +3,6 @@
 namespace SimpleTrader.WPF.State.Navigators {
     public class ViewModelDelegateRenavigator<TViewModel> : IRenavigator
         where TViewModel : ViewModelBase {
-        /*
-         * Not used in this program, but can be used to renavigate the user 
-         */
 
         private readonly INavigator _navigator;
         private readonly CreateViewModel<TViewModel> _createViewModel;

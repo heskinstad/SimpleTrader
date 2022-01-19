@@ -37,7 +37,7 @@ namespace SimpleTrader.WPF.ViewModels {
             _majorIndexService = majorIndexService;
         }
 
-        // Instansiates a MajorIndexViewModel, loads the data and returns it
+        // Instantiates a MajorIndexViewModel, loads the data and returns it
         public static MajorIndexListingViewModel LoadMajorIndexViewModel(IMajorIndexService majorIndexService) {
             MajorIndexListingViewModel majorIndexViewModel = new MajorIndexListingViewModel(majorIndexService);
             majorIndexViewModel.LoadMajorIndexes();

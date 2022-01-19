@@ -15,6 +15,7 @@ namespace SimpleTrader.WPF.ViewModels {
             Navigator = navigator;
             _viewModelFactory = viewModelFactory;
 
+            // Updates the displayed View and corresponding ViewModel inside the ContentControl
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(navigator, _viewModelFactory);
 
             // Displays the HomeView when the application starts

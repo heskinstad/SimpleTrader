@@ -18,10 +18,11 @@ namespace SimpleTrader.WPF {
     public partial class App : Application {
         protected override async void OnStartup(StartupEventArgs e) {
 
+            // IServiceProvider is responsible for resolving instances of types at runtime
             IServiceProvider serviceProvider = CreateServiceProvider();
 
+            // Example of a user buying stocks (only visible in the database)
             /*Account buyer = await accountService.Get(2);
-
             await buyStockService.BuyStock(buyer, ".AAPL", 5);*/
 
             Window window = serviceProvider.GetRequiredService<MainWindow>();
@@ -32,6 +33,8 @@ namespace SimpleTrader.WPF {
 
         private IServiceProvider CreateServiceProvider() {
             IServiceCollection services = new ServiceCollection();
+
+            // Each of the Add-methods below is used to register a service
 
             services.AddSingleton<SimpleTraderDbContextFactory>();
             services.AddSingleton<IDataService<Account>, AccountDataService>();
@@ -64,20 +67,21 @@ namespace SimpleTrader.WPF {
 
 
             // How to set up navigation from a button inside the ContentControl that changes the ContentControl viewmodel
-            services.AddSingleton <ViewModelDelegateRenavigator<HomeViewModel>>();
+            services.AddSingleton<ViewModelDelegateRenavigator<HomeViewModel>>();
             services.AddSingleton<CreateViewModel<BuyViewModel>>(services => {
                 return () => new BuyViewModel(
                     services.GetRequiredService<ViewModelDelegateRenavigator<HomeViewModel>>());
             });
             //
 
-            services.AddSingleton<CreateViewModel<PortfolioViewModel>> (services => {
-                return () => services.GetRequiredService<PortfolioViewModel>();
-            });
-
+            // The BuyViewModel setup with an empty ViewModel (not button)
             /*services.AddSingleton<CreateViewModel<BuyViewModel>>(services => {
                 return () => services.GetRequiredService<BuyViewModel>();
             });*/
+
+            services.AddSingleton<CreateViewModel<PortfolioViewModel>> (services => {
+                return () => services.GetRequiredService<PortfolioViewModel>();
+            });
 
             services.AddScoped<INavigator, Navigator>();
             services.AddScoped<MainViewModel>();
