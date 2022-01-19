@@ -34,6 +34,8 @@ package WPF {
     package WPF.State.Navigators {
       interface WPF.State.Navigators.INavigator
       class WPF.State.Navigators.Navigator
+      interface WPF.State.Navigators.IRenavigator
+      class WPF.State.Navigators.ViewModelDelegateRenavigator
     }
   }
   package WPF.ViewModels {
@@ -106,15 +108,22 @@ WPF.ViewModels.ViewModelBase --* WPF.Models.ObservableObject
 WPF.ViewModels.MainViewModel --* WPF.ViewModels.ViewModelBase
 WPF.ViewModels.HomeViewModel --* WPF.ViewModels.ViewModelBase
 WPF.Models.ObservableObject --* INotifyPropertyChanged
-WPF.State.Navigators.Navigator --> WPF.Commands.UpdateCurrentViewModelCommand
+WPF.State.Navigators.Navigator <-- WPF.Commands.UpdateCurrentViewModelCommand
 WPF.State.Navigators.Navigator --* WPF.State.Navigators.INavigator
 WPF.State.Navigators.Navigator --* WPF.Models.ObservableObject
 WPF.Views -[dashed]-> WPF.Controls
 WPF.Commands.UpdateCurrentViewModelCommand --* ICommand
 WPF.App --> WPF.ViewModels.MainViewModel : AddScoped
-WPF.App --> WPF.State.Navigators : AddScoped
+WPF.App --> WPF.ViewModels.HomeViewModel : AddScoped
+WPF.App --> WPF.ViewModels.viewmodel : AddScoped
+WPF.App --> WPF.State.Navigators.ViewModelDelegateRenavigator : AddScoped
+WPF.App --> WPF.State.Navigators.INavigator : AddScoped
+WPF.App --> WPF.State.Navigators.Navigator : AddScoped
 WPF.App --> WPF.MainWindow : AddScoped
 WPF.ViewModels.ViewModelBase *-- WPF.ViewModels.viewmodel : All other view models\nextends ViewModelBase
+WPF.State.Navigators.ViewModelDelegateRenavigator --* WPF.State.Navigators.IRenavigator
+WPF.State.Navigators.ViewModelDelegateRenavigator --> WPF.State.Navigators.INavigator
+WPF.State.Navigators.ViewModelDelegateRenavigator --> WPF.State.Navigators.Navigator
 
 interface INotifyPropertyChanged
 interface ICommand
